@@ -1,57 +1,69 @@
 body {
-    font-family: 'Arial', sans-serif;
+    font-family: 'Roboto', sans-serif;
     margin: 0;
     padding: 0;
 }
 
-header, section, footer {
-    margin: 20px;
+.header-title {
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
 }
 
-header h1 {
-    font-size: 2em;
-}
-
-header p {
-    font-size: 1.2em;
-    color: #555;
-}
-
-#portfolio, #about, #contact, #social-media {
-    margin-top: 40px;
-}
-
-.project {
-    margin-bottom: 20px;
-}
-
-h2 {
-    font-size: 1.5em;
-}
-
-.social-icons {
+/* Add this block for the dark mode toggle */
+.dark-mode-toggle {
     display: flex;
-    justify-content: space-around;
+    align-items: center;
     margin-top: 20px;
 }
 
-.social-icons a {
-    text-decoration: none;
-    transition: transform 0.3s ease-in-out;
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 34px;
 }
 
-.social-icons img {
-    width: 40px;
-    height: 40px;
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
 }
 
-.social-icons a:hover {
-    transform: scale(1.2);
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: .4s;
+    border-radius: 34px;
 }
 
-footer {
-    margin-top: 40px;
-    text-align: center;
-    color: #777;
-    font-size: 0.9em;
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    transition: .4s;
+    border-radius: 50%;
+}
+
+input:checked + .slider {
+    background-color: #2196F3;
+}
+
+input:checked + .slider:before {
+    transform: translateX(26px);
+}
+
+.slider.round {
+    border-radius: 34px;
+}
+
+.slider.round:before {
+    border-radius: 50%;
 }
