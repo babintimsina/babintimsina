@@ -2,75 +2,102 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
-    <link rel="stylesheet" href="https://raw.githubusercontent.com/babintimsina/babintimsina/main/style.css">
-    <title>BabinTimsina</title>
+    <title>Hi, it's me Babin Timsina</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(270deg, #ff7e5f, #feb47b, #ff7e5f, #feb47b);
+            background-size: 800% 800%;
+            animation: gradientAnimation 10s ease infinite;
+            backdrop-filter: blur(10px);
+        }
+
+        @keyframes gradientAnimation {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        header {
+            background-color: rgba(51, 51, 51, 0.8);
+            color: #fff;
+            padding: 1rem 0;
+            text-align: center;
+        }
+
+        .header-text {
+            display: inline-block;
+            overflow: hidden;
+            white-space: nowrap;
+            border-right: .15em solid orange;
+            animation: typing 3.5s steps(40, end), blink-caret .75s step-end infinite;
+        }
+
+        @keyframes typing {
+            from { width: 0 }
+            to { width: 100% }
+        }
+
+        @keyframes blink-caret {
+            from, to { border-color: transparent }
+            50% { border-color: orange; }
+        }
+
+        .container {
+            width: 80%;
+            margin: 0 auto;
+            padding: 2rem 0;
+        }
+
+        .contacts {
+            text-align: center;
+            margin-top: 2rem;
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 1rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .contacts h2 {
+            margin-bottom: 1rem;
+            font-size: 2rem;
+            color: #333;
+        }
+
+        .contacts img {
+            width: 40px;
+            height: 40px;
+            margin: 0 15px;
+            vertical-align: middle;
+            transition: transform 0.3s;
+        }
+
+        .contacts img:hover {
+            transform: scale(1.2);
+        }
+    </style>
 </head>
 <body>
     <header>
-        <h1 class="header-title">BABIN TIMSINA</h1>
-        <p>Web Developer | Designer | Creative Enthusiast</p>
+        <h1 class="header-text">Hi, it's me Babin Timsina</h1>
+        <p>Web Developer | Designer | Programmer</p>
     </header>
-
-    <section id="portfolio">
-        <h2>Portfolio</h2>
-        <!-- Add your project details here -->
-        <div class="project">
-            <img src="project1.jpg" alt="Project 1">
-            <h3>Project 1</h3>
-            <p>Description of Project 1.</p>
-        </div>
-
-        <div class="project">
-            <img src="project2.jpg" alt="Project 2">
-            <h3>Project 2</h3>
-            <p>Description of Project 2.</p>
-        </div>
-        <!-- Add more projects as needed -->
-    </section>
-
-    <section id="about">
-        <h2>About Me</h2>
-        <p>Write a brief bio about yourself here.</p>
-    </section>
-
-    <section id="contact">
-        <h2>Contact</h2>
-        <p>You can reach me at babintimsina@gmail.com</p>
-    </section>
-
-    <footer>
-        <section id="social-media">
-            <h2>Follow Me</h2>
-            <div class="social-icons">
-                <a href="https://facebook.com/profile.php?id=100077916435745" target="_blank">
-                    <ion-icon name="logo-facebook"></ion-icon>
-                </a>
-                <a href="https://www.instagram.com/babintimsina/" target="_blank">
-                  <ion-icon name="logo-instagram"></ion-icon>
-                </a>
-                <a href="https://www.snapchat.com/add/babin.timsina" target="_blank">
-                    <ion-icon name="logo-snapchat"></ion-icon>
-                </a>
-                <a href="https://www.tiktok.com/@babintimisina" target="_blank">
-                    <ion-icon name="logo-tiktok"></ion-icon>
-                </a>
-                <!-- Add more social media icons as needed -->
+    <div class="container">
+        <div class="contacts">
+            <h2>Contact Me</h2>
+            <div>
+                <a href="mailto:babintimsina@gmail.com"><img src="https://upload.wikimedia.org/wikipedia/commons/e/ec/Circle-icons-mail.svg" alt="Email"></a>
+                <a href="https://www.facebook.com/profile.php?id=100077916435745"><img src="https://upload.wikimedia.org/wikipedia/commons/5/51/Facebook_f_logo_%282019%29.svg" alt="Facebook"></a>
+                <a href="https://www.instagram.com/babintimsina/"><img src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Instagram_icon.png" alt="Instagram"></a>
+                <a href="https://www.linkedin.com/in/babintimsina/"><img src="https://upload.wikimedia.org/wikipedia/commons/c/ca/LinkedIn_logo_initials.png" alt="LinkedIn"></a>
+                <a href="https://x.com/babintimsina"><img src="https://cdn-icons-png.flaticon.com/512/5969/5969020.png" alt="X"></a>
             </div>
-        </section>
-        <div class="dark-mode-toggle">
-            <label class="switch">
-                <input type="checkbox" id="darkModeToggle">
-                <span class="slider round"></span>
-            </label>
-            <p>Toggle Dark Mode</p>
         </div>
-    </footer>
-
-    <!-- Corrected the script tag -->
-    <script src="https://raw.githubusercontent.com/babintimsina/babintimsina/main/index.js"></script>
-    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
-    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+    </div>
+    <script src="script.js"></script>
 </body>
 </html>
