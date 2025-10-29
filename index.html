@@ -321,6 +321,30 @@
             padding: 1rem;
             background: rgba(255, 255, 255, 0.1);
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .minimize-btn {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            padding: 0;
+            line-height: 1;
+        }
+
+        .minimize-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
         }
 
         .chat-messages {
@@ -560,9 +584,10 @@
         <div class="chat-notification"></div>
     </div>
     
-    <div class="chat-container" id="chatContainer">
+    <div class="chat-container" id="chatContainer" onclick="event.stopPropagation()">
         <div class="chat-header">
             <h3>Chat with me</h3>
+            <button class="minimize-btn" onclick="toggleChat()">−</button>
         </div>
         <div class="chat-messages" id="chatMessages">
             <div class="message bot-message">
@@ -581,16 +606,32 @@
             const chatContainer = document.getElementById('chatContainer');
             const chatIcon = document.querySelector('.chat-icon');
             const notification = document.querySelector('.chat-notification');
+            const input = document.getElementById('userInput');
             
             if (chatContainer.style.display === 'none' || chatContainer.style.display === '') {
                 chatContainer.style.display = 'flex';
                 chatIcon.style.transform = 'scale(1.1)';
                 if (notification) notification.style.display = 'none';
+                // Auto focus the input with a slight delay to ensure animation completes
+                setTimeout(() => input.focus(), 300);
             } else {
                 chatContainer.style.display = 'none';
                 chatIcon.style.transform = 'scale(1)';
             }
         }
+
+        // Handle clicking outside chat
+        document.addEventListener('click', function(event) {
+            const chatContainer = document.getElementById('chatContainer');
+            const chatIcon = document.querySelector('.chat-icon');
+            
+            // If chat is open and click is outside chat container and chat icon
+            if (chatContainer.style.display === 'flex' && 
+                !chatContainer.contains(event.target) && 
+                !chatIcon.contains(event.target)) {
+                toggleChat();
+            }
+        });
 
         // Add notification when chat is closed for a while
         function showNotification() {
