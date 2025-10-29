@@ -2,102 +2,738 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hi, it's me Babin Timsina</title>
+    <title>Babin Timsina - Portfolio</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
+        * {
             margin: 0;
             padding: 0;
-            background: linear-gradient(270deg, #ff7e5f, #feb47b, #ff7e5f, #feb47b);
-            background-size: 800% 800%;
-            animation: gradientAnimation 10s ease infinite;
-            backdrop-filter: blur(10px);
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
-        @keyframes gradientAnimation {
+        body {
+            min-height: 100vh;
+            color: #fff;
+            overflow-x: hidden;
+            position: relative;
+            background-color: #000;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            background-color: rgba(0, 0, 0, 0.3);
+        }
+
+        .background-slideshow {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -3;
+        }
+
+        .background-slideshow div {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            opacity: 0;
+            animation: imageTransition 30s linear infinite;
+            transform: scale(1.1);
+        }
+
+        .background-slideshow div:nth-child(1) {
+            background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)),
+                url('https://images.unsplash.com/photo-1506744038136-46273834b3fb');
+            animation-delay: 0s;
+        }
+
+        .background-slideshow div:nth-child(2) {
+            background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)),
+                url('https://images.unsplash.com/photo-1434394354979-a235cd36269d');
+            animation-delay: 10s;
+        }
+
+        .background-slideshow div:nth-child(3) {
+            background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)),
+                url('https://images.unsplash.com/photo-1472214103451-9374bd1c798e');
+            animation-delay: 20s;
+        }
+
+        @keyframes imageTransition {
+            0%, 28% {
+                opacity: 1;
+                transform: scale(1.1);
+            }
+            33%, 95% {
+                opacity: 0;
+                transform: scale(1);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1.1);
+            }
+        }
+
+        .gradient-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: linear-gradient(45deg, rgba(255, 107, 107, 0.4), rgba(78, 205, 196, 0.4), rgba(69, 183, 209, 0.4));
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+        }
+
+        @keyframes gradientBG {
             0% { background-position: 0% 50%; }
             50% { background-position: 100% 50%; }
             100% { background-position: 0% 50%; }
         }
 
-        header {
-            background-color: rgba(51, 51, 51, 0.8);
-            color: #fff;
-            padding: 1rem 0;
-            text-align: center;
-        }
-
-        .header-text {
-            display: inline-block;
-            overflow: hidden;
-            white-space: nowrap;
-            border-right: .15em solid orange;
-            animation: typing 3.5s steps(40, end), blink-caret .75s step-end infinite;
-        }
-
-        @keyframes typing {
-            from { width: 0 }
-            to { width: 100% }
-        }
-
-        @keyframes blink-caret {
-            from, to { border-color: transparent }
-            50% { border-color: orange; }
-        }
-
         .container {
-            width: 80%;
-            margin: 0 auto;
-            padding: 2rem 0;
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 2rem;
         }
 
-        .contacts {
+        .glass-card {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(12px) saturate(180%);
+            -webkit-backdrop-filter: blur(12px) saturate(180%);
+            border-radius: 20px;
+            padding: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 
+                0 8px 32px 0 rgba(31, 38, 135, 0.15),
+                inset 0 0 0 1px rgba(255, 255, 255, 0.1),
+                inset 0 0 0 2px rgba(255, 255, 255, 0.05);
+            margin-bottom: 2rem;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .glass-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                120deg,
+                transparent,
+                rgba(255, 255, 255, 0.1),
+                transparent
+            );
+            transition: 0.5s;
+        }
+
+        .glass-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 
+                0 15px 45px 0 rgba(31, 38, 135, 0.25),
+                inset 0 0 0 1px rgba(255, 255, 255, 0.2),
+                inset 0 0 0 2px rgba(255, 255, 255, 0.1);
+        }
+
+        .glass-card:hover::before {
+            left: 100%;
+        }
+
+        .header {
+            text-align: center;
+            padding: 3rem 0;
+        }
+
+        .header h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .about {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+        }
+
+        .skills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .skill-tag {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+        }
+
+        .social-links {
             text-align: center;
             margin-top: 2rem;
-            background-color: rgba(255, 255, 255, 0.8);
-            padding: 1rem;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
 
-        .contacts h2 {
-            margin-bottom: 1rem;
-            font-size: 2rem;
-            color: #333;
+        .social-links a {
+            display: inline-block;
+            margin: 0 10px;
+            transition: transform 0.3s ease;
         }
 
-        .contacts img {
+        .social-links img {
             width: 40px;
             height: 40px;
-            margin: 0 15px;
-            vertical-align: middle;
+            filter: brightness(0) invert(1);
             transition: transform 0.3s;
         }
 
-        .contacts img:hover {
+        .social-links a:hover img {
             transform: scale(1.2);
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 1rem;
+            }
+            .header h1 {
+                font-size: 2rem;
+            }
+        }
+
+        /* Chatbot Styles */
+        .chat-icon {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 60px;
+            height: 60px;
+            background: rgba(78, 205, 196, 0.2);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            z-index: 1000;
+            transition: all 0.3s ease;
+            overflow: hidden;
+        }
+
+        .chat-icon:hover {
+            transform: scale(1.1);
+            border-color: rgba(255, 255, 255, 0.4);
+            background: rgba(78, 205, 196, 0.3);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+        }
+
+        .robot-icon {
+            width: 30px;
+            height: 30px;
+            color: white;
+            transition: transform 0.3s ease;
+        }
+
+        .chat-icon:hover .robot-icon {
+            transform: scale(1.1);
+            animation: wiggle 1s ease-in-out;
+        }
+
+        @keyframes wiggle {
+            0%, 100% { transform: rotate(0deg); }
+            25% { transform: rotate(-10deg); }
+            75% { transform: rotate(10deg); }
+        }
+
+        .chat-notification {
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 12px;
+            height: 12px;
+            background: #ff6b6b;
+            border-radius: 50%;
+            border: 2px solid rgba(255, 255, 255, 0.9);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.2); opacity: 0.8; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .chat-container {
+            position: fixed;
+            bottom: 90px;
+            right: 20px;
+            width: 350px;
+            height: 500px;
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(12px) saturate(180%);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            box-shadow: 
+                0 8px 32px 0 rgba(31, 38, 135, 0.2),
+                inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+            display: none;
+            flex-direction: column;
+            z-index: 999;
+            overflow: hidden;
+            animation: slideIn 0.3s ease-out;
+            transform-origin: bottom right;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: scale(0.8);
+                opacity: 0;
+            }
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .chat-header {
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.1);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .chat-messages {
+            flex-grow: 1;
+            padding: 1rem;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .message {
+            max-width: 80%;
+            padding: 0.8rem 1rem;
+            border-radius: 15px;
+            margin: 0.5rem 0;
+            word-wrap: break-word;
+            position: relative;
+            animation: messageAppear 0.3s ease-out;
+        }
+
+        @keyframes messageAppear {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .bot-message {
+            background: rgba(255, 255, 255, 0.2);
+            align-self: flex-start;
+            border-bottom-left-radius: 5px;
+        }
+
+        .user-message {
+            background: rgba(78, 205, 196, 0.2);
+            align-self: flex-end;
+            border-bottom-right-radius: 5px;
+        }
+
+        .typing-indicator {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 10px 15px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            margin: 5px 0;
+        }
+
+        .typing-dot {
+            width: 8px;
+            height: 8px;
+            background: white;
+            border-radius: 50%;
+            opacity: 0.6;
+            animation: typingAnimation 1s infinite ease-in-out;
+        }
+
+        .typing-dot:nth-child(1) { animation-delay: 0.2s; }
+        .typing-dot:nth-child(2) { animation-delay: 0.4s; }
+        .typing-dot:nth-child(3) { animation-delay: 0.6s; }
+
+        @keyframes typingAnimation {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+
+        /* Enhanced Social Links Styles */
+        .social-links {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 25px;
+            margin: 2rem auto;
+            flex-wrap: wrap;
+            text-align: center;
+            width: 100%;
+            padding: 0 20px;
+        }
+
+        .social-link {
+            position: relative;
+            width: 50px;
+            height: 50px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+            overflow: hidden;
+            padding: 12px;
+            box-sizing: border-box;
+        }
+
+        .social-link::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at center, rgba(255,255,255,0.1) 0%, transparent 70%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .social-link:hover {
+            transform: translateY(-5px);
+            border-color: rgba(255, 255, 255, 0.4);
+            box-shadow: 
+                0 5px 15px rgba(0,0,0,0.2),
+                0 0 15px rgba(255,255,255,0.2);
+        }
+
+        .social-link:hover::before {
+            opacity: 1;
+        }
+
+        .social-links img {
+            width: 100%;
+            height: 100%;
+            transition: transform 0.3s ease;
+            position: relative;
+            z-index: 1;
+            filter: brightness(1);
+            object-fit: contain;
+        }
+
+        .social-link:hover img {
+            transform: scale(1.15);
+        }
+
+        .chat-input {
+            display: flex;
+            padding: 1rem;
+            gap: 0.5rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .chat-input input {
+            flex-grow: 1;
+            padding: 0.8rem;
+            border: none;
+            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            outline: none;
+        }
+
+        .chat-input input::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .send-btn {
+            padding: 0.8rem 1.2rem;
+            border: none;
+            border-radius: 20px;
+            background: rgba(78, 205, 196, 0.3);
+            color: white;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .send-btn:hover {
+            background: rgba(78, 205, 196, 0.5);
+        }
+
+        .chat-icon img {
+            width: 30px;
+            height: 30px;
+            filter: brightness(0) invert(1);
         }
     </style>
 </head>
 <body>
-    <header>
-        <h1 class="header-text">Hi, it's me Babin Timsina</h1>
-        <p>Web Developer | Designer | Programmer</p>
-    </header>
+    <div class="background-slideshow">
+        <div></div>
+        <div></div>
+        <div></div>
+    </div>
+    <div class="gradient-overlay"></div>
     <div class="container">
-        <div class="contacts">
-            <h2>Contact Me</h2>
-            <div>
-                <a href="mailto:babintimsina@gmail.com"><img src="https://upload.wikimedia.org/wikipedia/commons/e/ec/Circle-icons-mail.svg" alt="Email"></a>
-                <a href="https://www.facebook.com/profile.php?id=100077916435745"><img src="https://upload.wikimedia.org/wikipedia/commons/5/51/Facebook_f_logo_%282019%29.svg" alt="Facebook"></a>
-                <a href="https://www.instagram.com/babintimsina/"><img src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Instagram_icon.png" alt="Instagram"></a>
-                <a href="https://www.linkedin.com/in/babintimsina/"><img src="https://upload.wikimedia.org/wikipedia/commons/c/ca/LinkedIn_logo_initials.png" alt="LinkedIn"></a>
-                <a href="https://x.com/babintimsina"><img src="https://cdn-icons-png.flaticon.com/512/5969/5969020.png" alt="X"></a>
+        <header class="header glass-card">
+            <h1>Babin Timsina</h1>
+            <p>Web Developer | Designer | Programmer</p>
+        </header>
+
+        <section class="about glass-card">
+            <h2>About Me</h2>
+            <p>I am a passionate web developer and designer with a keen eye for creating beautiful and functional digital experiences. I specialize in modern web technologies and user-centric design.</p>
+            
+            <div class="skills">
+                <span class="skill-tag">HTML5</span>
+                <span class="skill-tag">CSS3</span>
+                <span class="skill-tag">JavaScript</span>
+                <span class="skill-tag">React</span>
+                <span class="skill-tag">Node.js</span>
+                <span class="skill-tag">UI/UX Design</span>
+            </div>
+        </section>
+
+        <section class="glass-card">
+            <h2>Let's Connect</h2>
+            <div class="social-links">
+                <a href="mailto:babintimsina@gmail.com" class="social-link">
+                    <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHBhdGggZmlsbD0iI2ZmZmZmZiIgZD0iTTIwIDRINGMtMS4xIDAtMS45OS45LTEuOTkgMkwyIDE4YzAgMS4xLjkgMiAyIDJoMTZjMS4xIDAgMi0uOSAyLTJWNmMwLTEuMS0uOS0yLTItMnptMCAxNEg0VjhoOHY0aDR2NnptLTEwLTdWOGwtNCA0aDEwdi00aC02eiIvPjwvc3ZnPg==" alt="Email">
+                </a>
+                <a href="https://www.facebook.com/profile.php?id=100077916435745" class="social-link">
+                    <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHBhdGggZmlsbD0iI2ZmZmZmZiIgZD0iTTEyIDJDNi40NzcgMiAyIDYuNDc3IDIgMTJjMCA0Ljk5MSAzLjY1NyA5LjEyOCA4LjQzOCA5Ljg3OVYxNC44OWgtMi41NFYxMmgyLjU0VjkuNzk3YzAtMi41MDYgMS40OTItMy44OSAzLjc3Ny0zLjg5IDEuMDk0IDAgMi4yMzguMTk1IDIuMjM4LjE5NXYyLjQ2aC0xLjI2Yy0xLjI0MyAwLTEuNjMuNzcxLTEuNjMgMS41NjJWMTJoMi43NzNsLS40NDMgMi44OWgtMi4zM3Y2Ljk4OUM4LjM0MyAyMS4xMjggMTIgMTYuOTkxIDEyIDEyYzAtNS41MjMtNC40NzctMTAtMTAtMTB6Ii8+PC9zdmc+" alt="Facebook">
+                </a>
+                <a href="https://www.instagram.com/babintimsina/" class="social-link">
+                    <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHBhdGggZmlsbD0iI2ZmZmZmZiIgZD0iTTEyIDJjNS41MjMgMCAxMCA0LjQ3NyAxMCAxMHMtNC40NzcgMTAtMTAgMTBTMiAxNy41MjMgMiAxMiA2LjQ3NyAyIDEyIDJ6bTIuNSA0aC01QzcuMzk4IDYgNiA3LjM5OCA2IDkuNXY1QzYgMTYuNjAyIDcuMzk4IDE4IDkuNSAxOGg1YzIuMTAyIDAgMy41LTEuMzk4IDMuNS0zLjV2LTVDMTggNy4zOTggMTYuNjAyIDYgMTQuNSA2em0yLjUgMy41djVjMCAxLjM4LTEuMTIgMi41LTIuNSAyLjVoLTVDMTAuMTIgMTcgOSAxNS44OCA5IDE0LjV2LTVDOSA4LjEyIDEwLjEyIDcgMTEuNSA3aDVjMS4zOCAwIDIuNSAxLjEyIDIuNSAyLjV6TTEyIDljLTEuNjU3IDAtMyAxLjM0My0zIDNzMS4zNDMgMyAzIDMgMy0xLjM0MyAzLTMtMS4zNDMtMy0zLTN6Ii8+PC9zdmc+" alt="Instagram">
+                </a>
+                <a href="https://www.linkedin.com/in/babintimsina/" class="social-link">
+                    <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHBhdGggZmlsbD0iI2ZmZmZmZiIgZD0iTTIwLjQ0NyAyMC40NTJoLTMuNTU0di01LjU2OWMwLTEuMzI4LS4wMjctMy4wMzctMS44NTItMy4wMzctMS44NTMgMC0yLjEzNiAxLjQ0NS0yLjEzNiAyLjkzOXY1LjY2N0g5LjM1MVY5aDMuNDE0djEuNTYxaC4wNDZjLjQ3Ny0uOSAxLjYzNy0xLjg1IDMuMzctMS44NSAzLjYwMSAwIDQuMjY3IDIuMzcgNC4yNjcgNS40NTV2Ni4yODZ6TTUuMzM3IDcuNDMzYy0xLjE0NCAwLTIuMDYzLS45MjYtMi4wNjMtMi4wNjUgMC0xLjEzOC45Mi0yLjA2MyAyLjA2My0yLjA2MyAxLjE0IDAgMi4wNjQuOTI1IDIuMDY0IDIuMDYzIDAgMS4xMzktLjkyNSAyLjA2NS0yLjA2NCAyLjA2NXptMS43ODIgMTMuMDE5SDMuNTU1VjloMy41NjR2MTEuNDUyek0yMi4yMjUgMEgxLjc3MUMuNzkyIDAgMCAuNzc0IDAgMS43Mjl2MjAuNTQyQzAgMjMuMjI3Ljc5MiAyNCAxLjc3MSAyNGgyMC40NTFDMjMuMiAyNCAyNCAyMy4yMjcgMjQgMjIuMjcxVjEuNzI5QzI0IC43NzQgMjMuMiAwIDIyLjIyMiAwaC4wMDN6Ii8+PC9zdmc+" alt="LinkedIn">
+                </a>
+                <a href="https://x.com/babintimsina" class="social-link">
+                    <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHBhdGggZmlsbD0iI2ZmZmZmZiIgZD0iTTE4LjI0NCA1Ljc1NmwtNS43NTYgNi4xNzUgNi42OTggNi4zMTloLTIuMzc1bC01LjQ3LTUuMTE2LTQuNDIyIDUuMTE2SDVsNS4xMjQtNS45NC01LjgxLTUuNTU0aDIuNDAxbDQuNTIyIDQuMjE2IDQuMzIyLTQuOTkxaDIuNjg1em0tLjY4NiAxLjEyaC0uODY0bC04LjY4OCAxMC4wNDloLjg2NGw4LjY4OC0xMC4wNDl6Ii8+PC9zdmc+" alt="X">
+                </a>
+            </div>
+        </section>
+    </div>
+
+    <!-- Chatbot -->
+    <div class="chat-icon" onclick="toggleChat()">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="robot-icon">
+            <path fill="currentColor" d="M12 2c-.5 0-1 .2-1.4.6-.4.4-.6.9-.6 1.4v1H8.5c-1.4 0-2.5 1.1-2.5 2.5v2.5H4.5c-.8 0-1.5.7-1.5 1.5v4c0 .8.7 1.5 1.5 1.5H6v1.5c0 1.4 1.1 2.5 2.5 2.5h7c1.4 0 2.5-1.1 2.5-2.5V17h1.5c.8 0 1.5-.7 1.5-1.5v-4c0-.8-.7-1.5-1.5-1.5H18V7.5C18 6.1 16.9 5 15.5 5H14V4c0-.5-.2-1-.6-1.4-.4-.4-.9-.6-1.4-.6zm0 2c.3 0 .5.2.5.5V5h-1V4.5c0-.3.2-.5.5-.5zM8.5 6h7c.8 0 1.5.7 1.5 1.5v6c0 .8-.7 1.5-1.5 1.5h-7c-.8 0-1.5-.7-1.5-1.5v-6c0-.8.7-1.5 1.5-1.5zm-4 5H6v2H4.5c-.3 0-.5-.2-.5-.5v-1c0-.3.2-.5.5-.5zm15 0c.3 0 .5.2.5.5v1c0 .3-.2.5-.5.5H18v-2h1.5zM9 8.5v1c0 .3.2.5.5.5s.5-.2.5-.5v-1c0-.3-.2-.5-.5-.5s-.5.2-.5.5zm4 0v1c0 .3.2.5.5.5s.5-.2.5-.5v-1c0-.3-.2-.5-.5-.5s-.5.2-.5.5zm-5 4h8v1h-8v-1z"/>
+        </svg>
+        <div class="chat-notification"></div>
+    </div>
+    
+    <div class="chat-container" id="chatContainer">
+        <div class="chat-header">
+            <h3>Chat with me</h3>
+        </div>
+        <div class="chat-messages" id="chatMessages">
+            <div class="message bot-message">
+                Hi! I'm Babin's virtual assistant. How can I help you today?
             </div>
         </div>
+        <div class="chat-input">
+            <input type="text" id="userInput" placeholder="Type your message..." onkeypress="handleKeyPress(event)">
+            <button class="send-btn" onclick="sendMessage()">Send</button>
+        </div>
     </div>
-    <script src="script.js"></script>
+
+    <script>
+        // Chatbot functionality
+        function toggleChat() {
+            const chatContainer = document.getElementById('chatContainer');
+            const chatIcon = document.querySelector('.chat-icon');
+            const notification = document.querySelector('.chat-notification');
+            
+            if (chatContainer.style.display === 'none' || chatContainer.style.display === '') {
+                chatContainer.style.display = 'flex';
+                chatIcon.style.transform = 'scale(1.1)';
+                if (notification) notification.style.display = 'none';
+            } else {
+                chatContainer.style.display = 'none';
+                chatIcon.style.transform = 'scale(1)';
+            }
+        }
+
+        // Add notification when chat is closed for a while
+        function showNotification() {
+            if (document.getElementById('chatContainer').style.display === 'none') {
+                const notification = document.querySelector('.chat-notification');
+                if (notification) notification.style.display = 'block';
+            }
+        }
+
+        // Show notification after 30 seconds if chat is closed
+        setTimeout(showNotification, 30000);
+
+        function handleKeyPress(e) {
+            if (e.key === 'Enter') {
+                sendMessage();
+            }
+        }
+
+        function showTypingIndicator() {
+            const messagesDiv = document.getElementById('chatMessages');
+            const typingDiv = document.createElement('div');
+            typingDiv.className = 'typing-indicator';
+            typingDiv.innerHTML = `
+                <div class="typing-dot"></div>
+                <div class="typing-dot"></div>
+                <div class="typing-dot"></div>
+            `;
+            messagesDiv.appendChild(typingDiv);
+            messagesDiv.scrollTop = messagesDiv.scrollHeight;
+            return typingDiv;
+        }
+
+        function sendMessage() {
+            const input = document.getElementById('userInput');
+            const message = input.value.trim();
+            
+            if (message === '') return;
+
+            // Add user message
+            addMessage(message, 'user');
+            input.value = '';
+
+            // Show typing indicator
+            const typingIndicator = showTypingIndicator();
+
+            // Generate bot response with variable timing
+            const responseTime = Math.random() * 1000 + 1000; // Random time between 1-2 seconds
+            setTimeout(() => {
+                typingIndicator.remove();
+                const botResponse = generateResponse(message);
+                addMessage(botResponse, 'bot');
+            }, responseTime);
+        }
+
+        function addMessage(text, sender) {
+            const messagesDiv = document.getElementById('chatMessages');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${sender}-message`;
+            messageDiv.textContent = text;
+            messagesDiv.appendChild(messageDiv);
+            messagesDiv.scrollTop = messagesDiv.scrollHeight;
+        }
+
+        let conversationContext = '';
+
+        function generateResponse(message) {
+            const lowercaseMessage = message.toLowerCase();
+            
+            // Advanced response logic with context awareness
+            const responses = {
+                // Greetings and Basic Interaction
+                'hi': ['Hello! Welcome to Babin\'s portfolio! How can I assist you today?', 'Hi there! I\'m here to help you learn more about Babin. What would you like to know?'],
+                'hello': ['Hi! Great to see you here. How can I help?', 'Hello! I\'m Babin\'s AI assistant. What can I tell you about his work?'],
+                'hey': ['Hey there! How can I help you today?', 'Hi! I\'m here to assist you. What would you like to know about Babin?'],
+                
+                // About Babin
+                'who': 'Babin Timsina is a talented web developer and designer who specializes in creating modern, user-friendly digital experiences. He combines technical expertise with creative design thinking.',
+                'about': 'Babin is a passionate web developer and designer with expertise in modern web technologies. He focuses on creating intuitive, beautiful, and functional websites and applications.',
+                
+                // Technical Skills
+                'skills': [
+                    'Babin\'s core skills include:\n• Frontend: HTML5, CSS3, JavaScript, React\n• Backend: Node.js, Express\n• Design: UI/UX, Figma, Adobe XD\n• Database: MongoDB, MySQL\nWhat specific area would you like to know more about?',
+                    'Babin is proficient in:\n• Web Development (Full Stack)\n• UI/UX Design\n• Responsive Design\n• Modern Framework Implementation\nWould you like details about any of these areas?'
+                ],
+                'javascript': 'Babin has strong expertise in JavaScript, including modern ES6+ features, async programming, and various frameworks like React and Node.js.',
+                'react': 'In React, Babin creates responsive and dynamic user interfaces using modern practices like hooks, context API, and Redux for state management.',
+                'design': 'Babin approaches design with a user-centric mindset, creating intuitive interfaces that balance aesthetics with functionality. He uses tools like Figma and Adobe XD for prototyping.',
+                
+                // Projects and Experience
+                'project': [
+                    'Here are some of Babin\'s notable projects:\n1. E-commerce platforms\n2. Portfolio websites\n3. Business management systems\n4. Custom web applications\nWhich would you like to know more about?',
+                    'Babin has worked on various projects including:\n• Dynamic web applications\n• Responsive portfolio sites\n• E-commerce solutions\n• Content management systems\nInterested in any particular type?'
+                ],
+                'experience': 'Babin has experience in both freelance and professional settings, working with diverse clients and teams. He specializes in delivering high-quality web solutions that meet business objectives.',
+                
+                // Contact and Professional Links
+                'contact': 'You can reach Babin through:\n• Email: babintimsina@gmail.com\n• LinkedIn: linkedin.com/in/babintimsina\n• Or use any of the social media links above\nWhat\'s the best way for you to connect?',
+                'hire': 'Interested in working with Babin? Great choice! You can reach out through:\n• Email: babintimsina@gmail.com\n• LinkedIn: linkedin.com/in/babintimsina\nWould you like to discuss a specific project?',
+                'work': 'Looking to collaborate? Babin is open to:\n• Freelance projects\n• Full-time opportunities\n• Consulting work\nWhat type of opportunity would you like to discuss?',
+                
+                // Personality and Interests
+                'hobby': 'Besides coding, Babin enjoys:\n• Exploring new technologies\n• UI/UX design\n• Contributing to open source\n• Continuous learning',
+                'learning': 'Babin is currently exploring:\n• Advanced React patterns\n• Cloud technologies\n• AI/ML integration\n• Latest design trends',
+                
+                // Closing Conversations
+                'bye': ['Goodbye! Thanks for chatting. Feel free to return if you have more questions!', 'Have a great day! Don\'t hesitate to reach out if you need anything else.'],
+                'thank': ['You\'re welcome! Is there anything else you\'d like to know?', 'Glad I could help! Feel free to ask if you have more questions.']
+            };
+
+            // Context tracking
+            if (lowercaseMessage.includes('project') && conversationContext !== 'project') {
+                conversationContext = 'project';
+            } else if (lowercaseMessage.includes('skill') || lowercaseMessage.includes('technology')) {
+                conversationContext = 'skills';
+            }
+
+            // Response generation
+            for (const [key, response] of Object.entries(responses)) {
+                if (lowercaseMessage.includes(key)) {
+                    if (Array.isArray(response)) {
+                        return response[Math.floor(Math.random() * response.length)];
+                    }
+                    return response;
+                }
+            }
+
+            // Context-based default responses
+            if (conversationContext === 'project') {
+                return "Would you like to know more about any specific project or technology used in them?";
+            } else if (conversationContext === 'skills') {
+                return "Is there a particular technology or skill you'd like to learn more about?";
+            }
+
+            // Smart fallback responses
+            const fallbacks = [
+                "I'm here to help! Would you like to know about Babin's skills, projects, or how to get in touch?",
+                "I can tell you about Babin's experience, technical skills, or help you connect with him. What interests you?",
+                "Let me know if you'd like information about Babin's work, skills, or contact details.",
+                "I can share details about Babin's projects, expertise, or help you get in touch. What would be most helpful?"
+            ];
+
+            return fallbacks[Math.floor(Math.random() * fallbacks.length)];
+        }
+    </script>
 </body>
 </html>
