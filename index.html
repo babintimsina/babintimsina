@@ -2,9 +2,39 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#000000">
     <title>Babin Timsina - Portfolio</title>
     <style>
+        :root {
+            /* Dark theme (default) */
+            --bg-color: #000000;
+            --text-color: #ffffff;
+            --glass-bg: rgba(0, 0, 0, 0.25);
+            --glass-border: rgba(255, 255, 255, 0.15);
+            --glass-shadow: rgba(0, 0, 0, 0.3);
+            --overlay-bg: rgba(0, 0, 0, 0.3);
+            --card-highlight: rgba(255, 255, 255, 0.05);
+            --skill-tag-bg: rgba(255, 255, 255, 0.2);
+            --chat-bg: rgba(255, 255, 255, 0.08);
+            --weather-bg: rgba(0, 0, 0, 0.3);
+            --modal-bg: rgba(0, 0, 0, 0.5);
+        }
+
+        :root[data-theme="light"] {
+            --bg-color: #ffffff;
+            --text-color: #000000;
+            --glass-bg: rgba(255, 255, 255, 0.25);
+            --glass-border: rgba(0, 0, 0, 0.15);
+            --glass-shadow: rgba(0, 0, 0, 0.1);
+            --overlay-bg: rgba(255, 255, 255, 0.3);
+            --card-highlight: rgba(0, 0, 0, 0.05);
+            --skill-tag-bg: rgba(0, 0, 0, 0.1);
+            --chat-bg: rgba(0, 0, 0, 0.05);
+            --weather-bg: rgba(255, 255, 255, 0.3);
+            --modal-bg: rgba(255, 255, 255, 0.5);
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -12,12 +42,79 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
+        /* Theme toggle styles */
+        .theme-toggle {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--glass-bg);
+            padding: 8px 12px;
+            border-radius: 20px;
+            backdrop-filter: blur(6px) saturate(160%);
+            -webkit-backdrop-filter: blur(6px) saturate(160%);
+            border: 1px solid var(--glass-border);
+            box-shadow: 
+                0 8px 32px 0 var(--glass-shadow),
+                inset 0 0 0 1px var(--glass-border),
+                inset 0 0 0 2px var(--card-highlight);
+            transition: all 0.3s ease;
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .theme-toggle.hidden {
+            transform: translateY(-100px);
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .theme-switch {
+            width: 60px;
+            height: 30px;
+            background: var(--glass-bg);
+            border-radius: 15px;
+            border: 1px solid var(--glass-border);
+            position: relative;
+            cursor: pointer;
+            backdrop-filter: blur(6px) saturate(160%);
+            -webkit-backdrop-filter: blur(6px) saturate(160%);
+            transition: all 0.3s ease;
+            box-shadow: inset 0 0 0 1px var(--card-highlight);
+        }
+
+        .theme-switch::after {
+            content: '';
+            position: absolute;
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            top: 2px;
+            left: 2px;
+            background: var(--text-color);
+            transition: all 0.3s ease;
+        }
+
+        .theme-switch.light::after {
+            transform: translateX(30px);
+        }
+
+        .theme-icon {
+            width: 20px;
+            height: 20px;
+            color: var(--text-color);
+        }
+
         body {
             min-height: 100vh;
-            color: #fff;
+            color: var(--text-color);
             overflow-x: hidden;
             position: relative;
-            background-color: #000;
+            background-color: var(--bg-color);
+            transition: color 0.3s ease, background-color 0.3s ease;
         }
 
         body::before {
@@ -53,20 +150,17 @@
         }
 
         .background-slideshow div:nth-child(1) {
-            background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)),
-                url('https://images.unsplash.com/photo-1506744038136-46273834b3fb');
+            background-image: url('https://images.unsplash.com/photo-1506744038136-46273834b3fb');
             animation-delay: 0s;
         }
 
         .background-slideshow div:nth-child(2) {
-            background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)),
-                url('https://images.unsplash.com/photo-1434394354979-a235cd36269d');
+            background-image: url('https://images.unsplash.com/photo-1434394354979-a235cd36269d');
             animation-delay: 10s;
         }
 
         .background-slideshow div:nth-child(3) {
-            background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)),
-                url('https://images.unsplash.com/photo-1472214103451-9374bd1c798e');
+            background-image: url('https://images.unsplash.com/photo-1472214103451-9374bd1c798e');
             animation-delay: 20s;
         }
 
@@ -92,15 +186,8 @@
             width: 100%;
             height: 100%;
             z-index: -1;
-            background: linear-gradient(45deg, rgba(255, 107, 107, 0.4), rgba(78, 205, 196, 0.4), rgba(69, 183, 209, 0.4));
-            background-size: 400% 400%;
-            animation: gradientBG 15s ease infinite;
-        }
-
-        @keyframes gradientBG {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
+            background: rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(4px);
         }
 
         .container {
@@ -110,20 +197,36 @@
         }
 
         .glass-card {
-            background: rgba(255, 255, 255, 0.08);
-            backdrop-filter: blur(12px) saturate(180%);
-            -webkit-backdrop-filter: blur(12px) saturate(180%);
+            background: var(--glass-bg);
+            backdrop-filter: blur(6px) saturate(160%);
+            -webkit-backdrop-filter: blur(6px) saturate(160%);
             border-radius: 20px;
             padding: 2rem;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            border: 1px solid var(--glass-border);
             box-shadow: 
-                0 8px 32px 0 rgba(31, 38, 135, 0.15),
-                inset 0 0 0 1px rgba(255, 255, 255, 0.1),
-                inset 0 0 0 2px rgba(255, 255, 255, 0.05);
+                0 8px 32px 0 var(--glass-shadow),
+                inset 0 0 0 1px var(--glass-border),
+                inset 0 0 0 2px var(--card-highlight);
             margin-bottom: 2rem;
             transition: all 0.3s ease;
             position: relative;
             overflow: hidden;
+        }
+        
+        .glass-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(
+                180deg,
+                rgba(255, 255, 255, 0.05) 0%,
+                rgba(0, 0, 0, 0.1) 100%
+            );
+            pointer-events: none;
+            border-radius: 20px;
         }
 
         .glass-card::before {
@@ -157,12 +260,22 @@
         .header {
             text-align: center;
             padding: 3rem 0;
+            position: relative;
+        }
+
+        .header-content {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1rem;
         }
 
         .header h1 {
             font-size: 3rem;
-            margin-bottom: 1rem;
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+            display: inline-flex;
+            align-items: center;
+            gap: 15px;
         }
 
         .header p {
@@ -215,9 +328,148 @@
         @media (max-width: 768px) {
             .container {
                 padding: 0 1rem;
+                margin: 1rem auto;
+            }
+            .header {
+                padding: 2rem 1rem;
             }
             .header h1 {
                 font-size: 2rem;
+            }
+            .header p {
+                font-size: 1rem;
+                padding: 0 20px;
+            }
+            .theme-toggle {
+                padding: 6px;
+                top: 10px;
+                left: 10px;
+            }
+            .theme-switch {
+                width: 50px;
+                height: 26px;
+            }
+            .theme-switch::after {
+                width: 18px;
+                height: 18px;
+            }
+            .theme-switch.light::after {
+                transform: translateX(24px);
+            }
+            .theme-icon {
+                width: 16px;
+                height: 16px;
+            }
+            .glass-card {
+                padding: 1.5rem;
+                margin-bottom: 1.5rem;
+            }
+            .utilities-bar {
+                padding: 0.8rem;
+                flex-direction: column;
+                gap: 1rem;
+            }
+            .weather-widget {
+                width: 100%;
+                min-width: unset;
+            }
+            .games-section {
+                width: 100%;
+                justify-content: center;
+            }
+            .game-card {
+                min-width: 120px;
+                padding: 0.8rem;
+            }
+            .social-links {
+                gap: 20px;
+                padding: 0 10px;
+            }
+            .social-link {
+                width: 45px;
+                height: 45px;
+            }
+            .social-link .icon-container {
+                width: 45px;
+                height: 45px;
+            }
+            .social-link .label {
+                font-size: 0.75rem;
+            }
+            .skill-tag {
+                font-size: 0.8rem;
+                padding: 0.4rem 0.8rem;
+                margin: 0.25rem;
+            }
+            .chat-container {
+                width: 90%;
+                height: 80vh;
+                right: 5%;
+                bottom: 80px;
+            }
+            .chat-icon {
+                width: 50px;
+                height: 50px;
+                bottom: 15px;
+                right: 15px;
+            }
+            .robot-icon {
+                width: 25px;
+                height: 25px;
+            }
+            .chat-input input {
+                padding: 0.6rem;
+            }
+            .send-btn {
+                padding: 0.6rem 1rem;
+            }
+            .game-modal {
+                width: 95%;
+                max-height: 80vh;
+            }
+            .tictactoe-board {
+                max-width: 300px;
+                margin: 0 auto;
+            }
+            .snake-canvas {
+                max-width: 100%;
+                height: auto;
+            }
+        }
+
+        /* Additional mobile optimizations for very small screens */
+        @media (max-width: 480px) {
+            .header h1 {
+                font-size: 1.75rem;
+            }
+            .header p {
+                font-size: 0.9rem;
+            }
+            .utilities-bar {
+                padding: 0.6rem;
+            }
+            .game-card {
+                min-width: 100px;
+                font-size: 0.9rem;
+            }
+            .social-link {
+                width: 40px;
+                height: 40px;
+            }
+            .social-link .icon-container {
+                width: 40px;
+                height: 40px;
+                padding: 10px;
+            }
+            .social-link .label {
+                font-size: 0.7rem;
+            }
+            .message {
+                font-size: 0.9rem;
+                padding: 0.6rem 0.8rem;
+            }
+            .chat-header h3 {
+                font-size: 1rem;
             }
         }
 
@@ -422,7 +674,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            gap: 25px;
+            gap: 35px;
             margin: 2rem auto;
             flex-wrap: wrap;
             text-align: center;
@@ -432,6 +684,17 @@
 
         .social-link {
             position: relative;
+            width: 50px;
+            height: 50px;
+            display: inline-flex;
+            flex-direction: column;
+            align-items: center;
+            text-decoration: none;
+            color: white;
+            gap: 8px;
+        }
+
+        .social-link .icon-container {
             width: 50px;
             height: 50px;
             display: inline-flex;
@@ -445,6 +708,13 @@
             overflow: hidden;
             padding: 12px;
             box-sizing: border-box;
+            margin-bottom: 5px;
+        }
+
+        .social-link .label {
+            font-size: 0.8rem;
+            opacity: 0.9;
+            transition: opacity 0.3s ease;
         }
 
         .social-link::before {
@@ -459,12 +729,16 @@
             transition: opacity 0.3s ease;
         }
 
-        .social-link:hover {
+        .social-link:hover .icon-container {
             transform: translateY(-5px);
             border-color: rgba(255, 255, 255, 0.4);
             box-shadow: 
                 0 5px 15px rgba(0,0,0,0.2),
                 0 0 15px rgba(255,255,255,0.2);
+        }
+
+        .social-link:hover .label {
+            opacity: 1;
         }
 
         .social-link:hover::before {
@@ -528,49 +802,379 @@
     </style>
 </head>
 <body>
+    <div class="theme-toggle">
+        <svg class="theme-icon sun-icon" viewBox="0 0 24 24">
+            <path fill="currentColor" d="M12 7c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5zM2 13h2c.55 0 1-.45 1-1s-.45-1-1-1H2c-.55 0-1 .45-1 1s.45 1 1 1zm18 0h2c.55 0 1-.45 1-1s-.45-1-1-1h-2c-.55 0-1 .45-1 1s.45 1 1 1zM11 2v2c0 .55.45 1 1 1s1-.45 1-1V2c0-.55-.45-1-1-1s-1 .45-1 1zm0 18v2c0 .55.45 1 1 1s1-.45 1-1v-2c0-.55-.45-1-1-1s-1 .45-1 1zM5.99 4.58a.996.996 0 00-1.41 0 .996.996 0 000 1.41l1.06 1.06c.39.39 1.03.39 1.41 0s.39-1.03 0-1.41L5.99 4.58zm12.37 12.37a.996.996 0 00-1.41 0 .996.996 0 000 1.41l1.06 1.06c.39.39 1.03.39 1.41 0a.996.996 0 000-1.41l-1.06-1.06zm1.06-10.96a.996.996 0 000-1.41.996.996 0 00-1.41 0l-1.06 1.06c-.39.39-.39 1.03 0 1.41s1.03.39 1.41 0l1.06-1.06zM7.05 18.36a.996.996 0 000-1.41.996.996 0 00-1.41 0l-1.06 1.06c-.39.39-.39 1.03 0 1.41s1.03.39 1.41 0l1.06-1.06z"/>
+        </svg>
+        <div class="theme-switch"></div>
+        <svg class="theme-icon moon-icon" viewBox="0 0 24 24">
+            <path fill="currentColor" d="M12 3c-4.97 0-9 4.03-9 9s4.03 9 9 9 9-4.03 9-9c0-.46-.04-.92-.1-1.36a5.389 5.389 0 01-4.4 2.26 5.403 5.403 0 01-3.14-9.8c-.44-.06-.9-.1-1.36-.1z"/>
+        </svg>
+    </div>
     <div class="background-slideshow">
         <div></div>
         <div></div>
         <div></div>
     </div>
     <div class="gradient-overlay"></div>
+
+    <script>
+        // Theme switching functionality
+        const root = document.documentElement;
+        const themeSwitch = document.querySelector('.theme-switch');
+        
+        // Always start with dark theme if no preference is saved
+        const savedTheme = localStorage.getItem('theme') || 'dark';
+        setTheme(savedTheme);
+
+        // Ensure dark theme is set on initial load
+        if (!root.getAttribute('data-theme')) {
+            setTheme('dark');
+        }
+
+        themeSwitch.addEventListener('click', () => {
+            const currentTheme = root.getAttribute('data-theme');
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+            setTheme(newTheme);
+            localStorage.setItem('theme', newTheme);
+        });
+
+        function setTheme(theme) {
+            root.setAttribute('data-theme', theme);
+            themeSwitch.classList.toggle('light', theme === 'light');
+            document.body.classList.toggle('light-theme', theme === 'light');
+            
+            // Update icons color based on theme
+            const icons = document.querySelectorAll('.theme-icon');
+            icons.forEach(icon => {
+                icon.style.color = theme === 'light' ? '#000000' : '#ffffff';
+            });
+        }
+
+        // Scroll behavior for theme toggle
+        let lastScrollTop = 0;
+        const themeToggle = document.querySelector('.theme-toggle');
+        const scrollThreshold = 50; // Amount of scroll before toggle hides/shows
+
+        window.addEventListener('scroll', () => {
+            const currentScroll = window.pageYOffset || document.documentElement.scrollTop;
+            
+            // Show toggle when scrolling up or at top
+            if (currentScroll < lastScrollTop || currentScroll < scrollThreshold) {
+                themeToggle.classList.remove('hidden');
+            } 
+            // Hide toggle when scrolling down and not at top
+            else if (currentScroll > lastScrollTop && currentScroll > scrollThreshold) {
+                themeToggle.classList.add('hidden');
+            }
+            
+            lastScrollTop = currentScroll <= 0 ? 0 : currentScroll;
+        }, { passive: true });
+    </script>
     <div class="container">
         <header class="header glass-card">
-            <h1>Babin Timsina</h1>
-            <p>Web Developer | Designer | Programmer</p>
+            <div class="header-content">
+                <h1>Babin Timsina</h1>
+            </div>
+            <div class="roles-container">
+                <div class="role-item">
+                    <svg class="role-icon" viewBox="0 0 24 24">
+                        <path fill="currentColor" d="M13.325 3.05L8.667 20.432l1.93.518L15.355 3.57l-2.03-.52zm-4.13 10.146L5.98 10l3.215-3.196L8.254 5.9 4.134 10l4.12 4.1 0.94-0.904zm7.076-0.904L19.866 10l-4.12-4.1-0.942 0.904L18.02 10l-3.215 3.196 0.94 0.904z"/>
+                    </svg>
+                    <span class="role-text">Developer</span>
+                </div>
+                <div class="role-item">
+                    <svg class="role-icon" viewBox="0 0 24 24">
+                        <path fill="currentColor" d="M20.5 3l-.16.03L15 5.1 9 3 3.36 4.9c-.21.07-.36.25-.36.48V20.5c0 .28.22.5.5.5l.16-.03L9 18.9l6 2.1 5.64-1.9c.21-.07.36-.25.36-.48V3.5c0-.28-.22-.5-.5-.5zM15 19l-6-2.11V5l6 2.11V19z"/>
+                    </svg>
+                    <span class="role-text">Designer</span>
+                </div>
+                <div class="role-item">
+                    <svg class="role-icon" viewBox="0 0 24 24">
+                        <path fill="currentColor" d="M12 18.178l4.62-3.256c.428-.303.572-.859.317-1.318l-7.54-13.596c-.208-.375-.696-.477-1.033-.216L3.317 3.366c-.342.265-.372.75-.07 1.124l7.54 13.596c.256.459.802.558 1.213.092zM20.683 3.366l-5.047-3.574c-.337-.261-.825-.159-1.033.216l-7.54 13.596c-.255.459-.111 1.015.317 1.318L12 18.178c.411.466.957.367 1.213-.092l7.54-13.596c.302-.374.272-.859-.07-1.124z"/>
+                    </svg>
+                    <span class="role-text">Innovator</span>
+                </div>
+            </div>
         </header>
+
+        <style>
+            .roles-container {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                gap: 2rem;
+                margin-top: 1rem;
+                flex-wrap: wrap;
+            }
+
+            .role-item {
+                display: flex;
+                align-items: center;
+                gap: 0.5rem;
+                opacity: 0;
+                transform: translateY(20px);
+                animation: roleAppear 0.5s ease forwards;
+            }
+
+            .role-item:nth-child(2) {
+                animation-delay: 0.2s;
+            }
+
+            .role-item:nth-child(3) {
+                animation-delay: 0.4s;
+            }
+
+            .role-icon {
+                width: 24px;
+                height: 24px;
+                color: #fff;
+                animation: iconFloat 3s ease-in-out infinite;
+            }
+
+            .role-text {
+                font-size: 1.2rem;
+                font-weight: 500;
+                opacity: 0.9;
+                animation: textGlow 3s ease-in-out infinite;
+            }
+
+            @keyframes roleAppear {
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+
+            @keyframes iconFloat {
+                0%, 100% {
+                    transform: translateY(0);
+                }
+                50% {
+                    transform: translateY(-5px);
+                }
+            }
+
+            @keyframes textGlow {
+                0%, 100% {
+                    opacity: 0.9;
+                    text-shadow: 0 0 5px rgba(255,255,255,0.1);
+                }
+                50% {
+                    opacity: 1;
+                    text-shadow: 0 0 15px rgba(255,255,255,0.3);
+                }
+            }
+
+            @media (max-width: 768px) {
+                .roles-container {
+                    gap: 1.5rem;
+                }
+                .role-icon {
+                    width: 20px;
+                    height: 20px;
+                }
+                .role-text {
+                    font-size: 1rem;
+                }
+            }
+
+            @media (max-width: 480px) {
+                .roles-container {
+                    gap: 1rem;
+                    flex-direction: column;
+                }
+                .role-item {
+                    justify-content: center;
+                }
+            }
+        </style>
 
         <section class="about glass-card">
             <h2>About Me</h2>
             <p>I am a passionate web developer and designer with a keen eye for creating beautiful and functional digital experiences. I specialize in modern web technologies and user-centric design.</p>
             
-            <div class="skills">
-                <span class="skill-tag">HTML5</span>
-                <span class="skill-tag">CSS3</span>
-                <span class="skill-tag">JavaScript</span>
-                <span class="skill-tag">React</span>
-                <span class="skill-tag">Node.js</span>
-                <span class="skill-tag">UI/UX Design</span>
+            <div class="skills-gallery">
+                <div class="gallery-item" style="--delay: 0s">
+                    <img src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&q=80&w=400" alt="Technology" loading="lazy">
+                    <span class="overlay">Tech</span>
+                </div>
+                <div class="gallery-item" style="--delay: 0.1s">
+                    <img src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&q=80&w=400" alt="Modern Architecture" loading="lazy">
+                    <span class="overlay">Innovation</span>
+                </div>
+                <div class="gallery-item" style="--delay: 0.2s">
+                    <img src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&q=80&w=400" alt="Digital World" loading="lazy">
+                    <span class="overlay">Digital</span>
+                </div>
+                <div class="gallery-item" style="--delay: 0.3s">
+                    <img src="https://images.unsplash.com/photo-1523961131990-5ea7c61b2107?auto=format&fit=crop&q=80&w=400" alt="Code" loading="lazy">
+                    <span class="overlay">Code</span>
+                </div>
+                <div class="gallery-item" style="--delay: 0.4s">
+                    <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&q=80&w=400" alt="Modern Office" loading="lazy">
+                    <span class="overlay">Work</span>
+                </div>
+                <div class="gallery-item" style="--delay: 0.5s">
+                    <img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&q=80&w=400" alt="Development" loading="lazy">
+                    <span class="overlay">Development</span>
+                </div>
             </div>
+
+            <style>
+                .skills-gallery {
+                    display: grid;
+                    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+                    gap: 1rem;
+                    margin-top: 2rem;
+                    width: 100%;
+                }
+
+                .gallery-item {
+                    position: relative;
+                    overflow: hidden;
+                    border-radius: 15px;
+                    aspect-ratio: 16/9;
+                    animation: fadeIn 0.5s ease forwards;
+                    animation-delay: var(--delay);
+                    opacity: 0;
+                    transform: translateY(20px);
+                    transition: transform 0.3s ease;
+                }
+
+                .gallery-item img {
+                    width: 100%;
+                    height: 100%;
+                    object-fit: cover;
+                    transition: transform 0.5s ease;
+                }
+
+                .gallery-item:hover img {
+                    transform: scale(1.1);
+                }
+
+                .gallery-item .overlay {
+                    position: absolute;
+                    bottom: 0;
+                    left: 0;
+                    right: 0;
+                    padding: 1rem;
+                    background: linear-gradient(transparent, rgba(0,0,0,0.8));
+                    color: white;
+                    font-size: 1.1rem;
+                    font-weight: 500;
+                    opacity: 0;
+                    transform: translateY(20px);
+                    transition: all 0.3s ease;
+                }
+
+                .gallery-item:hover .overlay {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+
+                @keyframes fadeIn {
+                    to {
+                        opacity: 1;
+                        transform: translateY(0);
+                    }
+                }
+
+                @keyframes shuffle {
+                    0%, 100% { transform: translateX(0); }
+                    33% { transform: translateX(-100%); }
+                    66% { transform: translateX(100%); }
+                }
+
+                /* Auto shuffle animation for larger screens */
+                @media (min-width: 1024px) {
+                    .skills-gallery {
+                        grid-template-columns: repeat(3, 1fr);
+                    }
+                    .gallery-item {
+                        animation: fadeIn 0.5s ease forwards,
+                                 shuffle 20s ease-in-out infinite;
+                        animation-delay: var(--delay);
+                    }
+                }
+
+                /* Responsive adjustments */
+                @media (max-width: 768px) {
+                    .skills-gallery {
+                        grid-template-columns: repeat(2, 1fr);
+                        gap: 0.8rem;
+                    }
+                    .gallery-item .overlay {
+                        padding: 0.8rem;
+                        font-size: 1rem;
+                    }
+                }
+
+                @media (max-width: 480px) {
+                    .skills-gallery {
+                        grid-template-columns: 1fr;
+                        gap: 0.6rem;
+                    }
+                }
+            </style>
+
+            <script>
+                // Shuffle gallery items periodically
+                function shuffleGallery() {
+                    const gallery = document.querySelector('.skills-gallery');
+                    const items = Array.from(gallery.children);
+                    
+                    setInterval(() => {
+                        items.forEach(item => {
+                            const randomX = (Math.random() - 0.5) * 50;
+                            const randomDelay = Math.random() * 0.5;
+                            item.style.transition = `transform 0.5s ease ${randomDelay}s`;
+                            item.style.transform = `translateX(${randomX}%)`;
+                            
+                            setTimeout(() => {
+                                item.style.transform = 'translateX(0)';
+                            }, 500 + randomDelay * 1000);
+                        });
+                    }, 5000);
+                }
+
+                // Initialize shuffle animation
+                document.addEventListener('DOMContentLoaded', shuffleGallery);
+            </script>
         </section>
 
         <section class="glass-card">
             <h2>Let's Connect</h2>
             <div class="social-links">
                 <a href="mailto:babintimsina@gmail.com" class="social-link">
-                    <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHBhdGggZmlsbD0iI2ZmZmZmZiIgZD0iTTIwIDRINGMtMS4xIDAtMS45OS45LTEuOTkgMkwyIDE4YzAgMS4xLjkgMiAyIDJoMTZjMS4xIDAgMi0uOSAyLTJWNmMwLTEuMS0uOS0yLTItMnptMCAxNEg0VjhoOHY0aDR2NnptLTEwLTdWOGwtNCA0aDEwdi00aC02eiIvPjwvc3ZnPg==" alt="Email">
+                    <div class="icon-container">
+                        <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHBhdGggZmlsbD0iI2ZmZmZmZiIgZD0iTTIwIDRINGMtMS4xIDAtMS45OS45LTEuOTkgMkwyIDE4YzAgMS4xLjkgMiAyIDJoMTZjMS4xIDAgMi0uOSAyLTJWNmMwLTEuMS0uOS0yLTItMnptMCAxNEg0VjhoOHY0aDR2NnptLTEwLTdWOGwtNCA0aDEwdi00aC02eiIvPjwvc3ZnPg==" alt="Email">
+                    </div>
+                    <span class="label">Email</span>
                 </a>
                 <a href="https://www.facebook.com/profile.php?id=100077916435745" class="social-link">
-                    <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHBhdGggZmlsbD0iI2ZmZmZmZiIgZD0iTTEyIDJDNi40NzcgMiAyIDYuNDc3IDIgMTJjMCA0Ljk5MSAzLjY1NyA5LjEyOCA4LjQzOCA5Ljg3OVYxNC44OWgtMi41NFYxMmgyLjU0VjkuNzk3YzAtMi41MDYgMS40OTItMy44OSAzLjc3Ny0zLjg5IDEuMDk0IDAgMi4yMzguMTk1IDIuMjM4LjE5NXYyLjQ2aC0xLjI2Yy0xLjI0MyAwLTEuNjMuNzcxLTEuNjMgMS41NjJWMTJoMi43NzNsLS40NDMgMi44OWgtMi4zM3Y2Ljk4OUM4LjM0MyAyMS4xMjggMTIgMTYuOTkxIDEyIDEyYzAtNS41MjMtNC40NzctMTAtMTAtMTB6Ii8+PC9zdmc+" alt="Facebook">
+                    <div class="icon-container">
+                        <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHBhdGggZmlsbD0iI2ZmZmZmZiIgZD0iTTEyIDJDNi40NzcgMiAyIDYuNDc3IDIgMTJjMCA0Ljk5MSAzLjY1NyA5LjEyOCA4LjQzOCA5Ljg3OVYxNC44OWgtMi41NFYxMmgyLjU0VjkuNzk3YzAtMi41MDYgMS40OTItMy44OSAzLjc3Ny0zLjg5IDEuMDk0IDAgMi4yMzguMTk1IDIuMjM4LjE5NXYyLjQ2aC0xLjI2Yy0xLjI0MyAwLTEuNjMuNzcxLTEuNjMgMS41NjJWMTJoMi43NzNsLS40NDMgMi44OWgtMi4zM3Y2Ljk4OUM4LjM0MyAyMS4xMjggMTIgMTYuOTkxIDEyIDEyYzAtNS41MjMtNC40NzctMTAtMTAtMTB6Ii8+PC9zdmc+" alt="Facebook">
+                    </div>
+                    <span class="label">Facebook</span>
                 </a>
                 <a href="https://www.instagram.com/babintimsina/" class="social-link">
-                    <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHBhdGggZmlsbD0iI2ZmZmZmZiIgZD0iTTEyIDJjNS41MjMgMCAxMCA0LjQ3NyAxMCAxMHMtNC40NzcgMTAtMTAgMTBTMiAxNy41MjMgMiAxMiA2LjQ3NyAyIDEyIDJ6bTIuNSA0aC01QzcuMzk4IDYgNiA3LjM5OCA2IDkuNXY1QzYgMTYuNjAyIDcuMzk4IDE4IDkuNSAxOGg1YzIuMTAyIDAgMy41LTEuMzk4IDMuNS0zLjV2LTVDMTggNy4zOTggMTYuNjAyIDYgMTQuNSA2em0yLjUgMy41djVjMCAxLjM4LTEuMTIgMi41LTIuNSAyLjVoLTVDMTAuMTIgMTcgOSAxNS44OCA5IDE0LjV2LTVDOSA4LjEyIDEwLjEyIDcgMTEuNSA3aDVjMS4zOCAwIDIuNSAxLjEyIDIuNSAyLjV6TTEyIDljLTEuNjU3IDAtMyAxLjM0My0zIDNzMS4zNDMgMyAzIDMgMy0xLjM0MyAzLTMtMS4zNDMtMy0zLTN6Ii8+PC9zdmc+" alt="Instagram">
+                    <div class="icon-container">
+                        <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHBhdGggZmlsbD0iI2ZmZmZmZiIgZD0iTTEyIDJjNS41MjMgMCAxMCA0LjQ3NyAxMCAxMHMtNC40NzcgMTAtMTAgMTBTMiAxNy41MjMgMiAxMiA2LjQ3NyAyIDEyIDJ6bTIuNSA0aC01QzcuMzk4IDYgNiA3LjM5OCA2IDkuNXY1QzYgMTYuNjAyIDcuMzk4IDE4IDkuNSAxOGg1YzIuMTAyIDAgMy41LTEuMzk4IDMuNS0zLjV2LTVDMTggNy4zOTggMTYuNjAyIDYgMTQuNSA2em0yLjUgMy41djVjMCAxLjM4LTEuMTIgMi41LTIuNSAyLjVoLTVDMTAuMTIgMTcgOSAxNS44OCA5IDE0LjV2LTVDOSA4LjEyIDEwLjEyIDcgMTEuNSA3aDVjMS4zOCAwIDIuNSAxLjEyIDIuNSAyLjV6TTEyIDljLTEuNjU3IDAtMyAxLjM0My0zIDNzMS4zNDMgMyAzIDMgMy0xLjM0MyAzLTMtMS4zNDMtMy0zLTN6Ii8+PC9zdmc+" alt="Instagram">
+                    </div>
+                    <span class="label">Instagram</span>
                 </a>
                 <a href="https://www.linkedin.com/in/babintimsina/" class="social-link">
-                    <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHBhdGggZmlsbD0iI2ZmZmZmZiIgZD0iTTIwLjQ0NyAyMC40NTJoLTMuNTU0di01LjU2OWMwLTEuMzI4LS4wMjctMy4wMzctMS44NTItMy4wMzctMS44NTMgMC0yLjEzNiAxLjQ0NS0yLjEzNiAyLjkzOXY1LjY2N0g5LjM1MVY5aDMuNDE0djEuNTYxaC4wNDZjLjQ3Ny0uOSAxLjYzNy0xLjg1IDMuMzctMS44NSAzLjYwMSAwIDQuMjY3IDIuMzcgNC4yNjcgNS40NTV2Ni4yODZ6TTUuMzM3IDcuNDMzYy0xLjE0NCAwLTIuMDYzLS45MjYtMi4wNjMtMi4wNjUgMC0xLjEzOC45Mi0yLjA2MyAyLjA2My0yLjA2MyAxLjE0IDAgMi4wNjQuOTI1IDIuMDY0IDIuMDYzIDAgMS4xMzktLjkyNSAyLjA2NS0yLjA2NCAyLjA2NXptMS43ODIgMTMuMDE5SDMuNTU1VjloMy41NjR2MTEuNDUyek0yMi4yMjUgMEgxLjc3MUMuNzkyIDAgMCAuNzc0IDAgMS43Mjl2MjAuNTQyQzAgMjMuMjI3Ljc5MiAyNCAxLjc3MSAyNGgyMC40NTFDMjMuMiAyNCAyNCAyMy4yMjcgMjQgMjIuMjcxVjEuNzI5QzI0IC43NzQgMjMuMiAwIDIyLjIyMiAwaC4wMDN6Ii8+PC9zdmc+" alt="LinkedIn">
+                    <div class="icon-container">
+                        <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHBhdGggZmlsbD0iI2ZmZmZmZiIgZD0iTTIwLjQ0NyAyMC40NTJoLTMuNTU0di01LjU2OWMwLTEuMzI4LS4wMjctMy4wMzctMS44NTItMy4wMzctMS44NTMgMC0yLjEzNiAxLjQ0NS0yLjEzNiAyLjkzOXY1LjY2N0g5LjM1MVY5aDMuNDE0djEuNTYxaC4wNDZjLjQ3Ny0uOSAxLjYzNy0xLjg1IDMuMzctMS44NSAzLjYwMSAwIDQuMjY3IDIuMzcgNC4yNjcgNS40NTV2Ni4yODZ6TTUuMzM3IDcuNDMzYy0xLjE0NCAwLTIuMDYzLS45MjYtMi4wNjMtMi4wNjUgMC0xLjEzOC45Mi0yLjA2MyAyLjA2My0yLjA2MyAxLjE0IDAgMi4wNjQuOTI1IDIuMDY0IDIuMDYzIDAgMS4xMzktLjkyNSAyLjA2NS0yLjA2NCAyLjA2NXptMS43ODIgMTMuMDE5SDMuNTU1VjloMy41NjR2MTEuNDUyek0yMi4yMjUgMEgxLjc3MUMuNzkyIDAgMCAuNzc0IDAgMS43Mjl2MjAuNTQyQzAgMjMuMjI3Ljc5MiAyNCAxLjc3MSAyNGgyMC40NTFDMjMuMiAyNCAyNCAyMy4yMjcgMjQgMjIuMjcxVjEuNzI5QzI0IC43NzQgMjMuMiAwIDIyLjIyMiAwaC4wMDN6Ii8+PC9zdmc+" alt="LinkedIn">
+                    </div>
+                    <span class="label">LinkedIn</span>
                 </a>
                 <a href="https://x.com/babintimsina" class="social-link">
-                    <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHBhdGggZmlsbD0iI2ZmZmZmZiIgZD0iTTE4LjI0NCA1Ljc1NmwtNS43NTYgNi4xNzUgNi42OTggNi4zMTloLTIuMzc1bC01LjQ3LTUuMTE2LTQuNDIyIDUuMTE2SDVsNS4xMjQtNS45NC01LjgxLTUuNTU0aDIuNDAxbDQuNTIyIDQuMjE2IDQuMzIyLTQuOTkxaDIuNjg1em0tLjY4NiAxLjEyaC0uODY0bC04LjY4OCAxMC4wNDloLjg2NGw4LjY4OC0xMC4wNDl6Ii8+PC9zdmc+" alt="X">
+                    <div class="icon-container">
+                        <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHBhdGggZmlsbD0iI2ZmZmZmZiIgZD0iTTE4LjI0NCA1Ljc1NmwtNS43NTYgNi4xNzUgNi42OTggNi4zMTloLTIuMzc1bC01LjQ3LTUuMTE2LTQuNDIyIDUuMTE2SDVsNS4xMjQtNS45NC01LjgxLTUuNTU0aDIuNDAxbDQuNTIyIDQuMjE2IDQuMzIyLTQuOTkxaDIuNjg1em0tLjY4NiAxLjEyaC0uODY0bC04LjY4OCAxMC4wNDloLjg2NGw4LjY4OC0xMC4wNDl6Ii8+PC9zdmc+" alt="X">
+                    </div>
+                    <span class="label">X</span>
                 </a>
             </div>
         </section>
